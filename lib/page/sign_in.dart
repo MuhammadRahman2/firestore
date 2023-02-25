@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestore_crud_with_model/page/home_page.dart';
+import 'package:firestore_crud_with_model/page/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatefulWidget {
-  SignInPage({super.key});
+  final VoidCallback? onClick;
+  SignInPage({super.key, this.onClick});
 
   @override
   State<SignInPage> createState() => _SignInPageState();
@@ -56,7 +58,31 @@ class _SignInPageState extends State<SignInPage> {
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
-                      : const Text('SignIn'))
+                      : const Text('SignIn')),
+              const Spacer(),
+              Container(
+                width: double.infinity,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('if you have no account'),
+                    TextButton(
+                        onPressed: widget.onClick,
+                        // () {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (_) => SignUp(),
+                        //     ),
+                        //   );
+                        // },
+                        child: const Text('Sign UP')),
+                    const SizedBox(
+                      height: 100,
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -71,12 +97,20 @@ class _SignInPageState extends State<SignInPage> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-              email: emailC.text, password: passwordC.text)
+              email: emailC.text,
+              password: passwordC.text
+              )
           .then((value) {
         setState(() {
           isSinging = false;
         });
       });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
     } catch (e) {
       print('Some error is :  $e');
     }

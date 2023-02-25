@@ -32,11 +32,11 @@ class _HomePageState extends State<HomePage> {
           title: const Text("Firebase Create"),
           actions: [
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
               onPressed: () {
                 showMenu(
                   context: context,
-                  position: RelativeRect.fromLTRB(100, 30, 30, 100),
+                  position: const RelativeRect.fromLTRB(100, 30, 30, 100),
                   // position: const RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
                   items: [
                     PopupMenuItem(
@@ -61,6 +61,11 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              Text('Email: ${FirebaseAuth.instance.currentUser!.email}'),
+              Text('Email: ${FirebaseAuth.instance.currentUser!.displayName}'),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 controller: usernameController,
                 decoration: const InputDecoration(

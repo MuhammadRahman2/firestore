@@ -3,6 +3,8 @@ import 'package:firestore_crud_with_model/page/sign_in.dart';
 import '../page/home_page.dart';
 import 'package:flutter/material.dart';
 
+import 'authentication_screen.dart';
+
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
@@ -19,7 +21,7 @@ class MainScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return const HomePage();
         } else {
-          return SignInPage();
+          return AuthenticationScreen();
         }
       },
     );
