@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import '../data/model/user_model.dart';
 import '../data/remote_data/firestore_helper.dart';
@@ -27,7 +28,6 @@ class _EditPageState extends State<EditPage> {
     _ageController!.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,28 +41,19 @@ class _EditPageState extends State<EditPage> {
             children: [
               TextFormField(
                 controller: _usernameController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: "username"),
+                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "username"),
               ),
               const SizedBox(height: 10),
               TextFormField(
                 controller: _ageController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: "age"),
+                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "age"),
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                  onPressed: () {
-                    FirestoreHelper.update(
-                      UserModel(
-                          id: widget.user.id,
-                          username: _usernameController!.text,
-                          age: _ageController!.text),
-                    ).then((value) {
-                      Navigator.pop(context);
-                    });
-                  },
-                  child: const Text('Updata Value'))
+              ElevatedButton(onPressed: (){
+                 FirestoreHelper.update(UserModel(id: widget.user.id, username: _usernameController!.text, age: _ageController!.text),).then((value) {
+                    Navigator.pop(context);
+                  });
+              }, child: const Text('Updata Value'))
             ],
           ),
         ),

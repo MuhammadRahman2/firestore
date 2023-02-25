@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestore_crud_with_model/page/edit_page.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,32 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Firebase Create"),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(100, 30, 30, 100),
+                  // position: const RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+                  items: [
+                    PopupMenuItem(
+                      onTap: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      child: const Text('Sign Out'),
+                    ),
+                    const PopupMenuItem(
+                      child: Text('Sitting'),
+                    ),
+                    // const PopupMenuItem(
+                    //   child: Text('Menu Item 3'),
+                    // ),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -145,5 +172,4 @@ class _HomePageState extends State<HomePage> {
           );
         });
   }
-
 }
