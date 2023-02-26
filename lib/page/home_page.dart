@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Text('Email: ${FirebaseAuth.instance.currentUser!.email}'),
-              Text('Email: ${FirebaseAuth.instance.currentUser!.displayName}'),
+              Text('uname: ${FirebaseAuth.instance.currentUser!.displayName}'),
               const SizedBox(
                 height: 20,
               ),
