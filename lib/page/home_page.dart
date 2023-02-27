@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firestore_crud_with_model/data/model/userauth_datamodel.dart';
 import 'package:firestore_crud_with_model/page/edit_page.dart';
 import 'package:flutter/material.dart';
 
 import '../data/model/user_model.dart';
+import '../data/remote_data/firestore_authdata.dart';
 import '../data/remote_data/firestore_helper.dart';
 
 class HomePage extends StatefulWidget {
@@ -56,6 +58,52 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ],
+        ),
+        drawer: Drawer(
+          child: Container(
+              // height: 200,
+              // child: Column(
+              //   children: [
+              //     const DrawerHeader(child: Text('Drawer header')),
+              child: StreamBuilder<List<UserAuthDataModel>>(
+                  stream: FirestoreAuthData.read(),
+                  builder: (context, snapshot) {
+                    final userData = snapshot.data;
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: userData!.length,
+                          itemBuilder: (context, index) {
+                            final singleUser = userData[index];
+                            return Card(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const DrawerHeader(
+                                      child: Text('Drawer header')),
+                                  Text('Email: ${singleUser.email.toString()}'),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                      'Username:  ${singleUser.username.toString()}'),
+                                ],
+                              ),
+                            );
+                          });
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return const Text('Some error occured');
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  })
+              //   ],
+              // ),
+              ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),

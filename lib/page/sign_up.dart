@@ -3,6 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../data/model/userauth_datamodel.dart';
+import '../data/remote_data/firestore_authdata.dart';
+
 class SignUp extends StatefulWidget {
   final VoidCallback? onClick;
   SignUp({this.onClick});
@@ -43,14 +46,18 @@ class _SignUpState extends State<SignUp> {
         //       );
         //       await result.user!.updateDisplayName(_displayNameController.text.trim());
 
-        final  auth =  FirebaseAuth.instance;
-        
-          UserCredential result =await auth.createUserWithEmailAndPassword(
-                  email: _emailController.text.trim(),
-                password: _passwordController.text.trim(),
-            );
+        final auth = FirebaseAuth.instance;
+
+        final result = await auth
+            .createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ).then((value) {
+          FirestoreAuthData.create(UserAuthDataModel(
+              email: _emailController.text,
+              username: _passwordController.text)).then((value) => debugPrint('firestoreAuth data success'));
+        });
         User? user = result.user;
-        
         if (user != null) {
           //add display name for just created user
           await user.updateDisplayName(_displayNameController.text.trim());

@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return const HomePage();
         } else {
-          return AuthenticationScreen();
+          return const AuthenticationScreen();
         }
       },
     );
